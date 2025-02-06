@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions name="ToDoService" targetNamespace="http://example.com/todo"
+    xmlns="http://schemas.xmlsoap.org/wsdl/"
+    xmlns:tns="http://example.com/todo"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
+
+    <message name="GetTasksRequest"/>
+    <message name="GetTasksResponse">
+        <part name="tasks" type="xsd:string"/>
+    </message>
+
+    <portType name="ToDoPortType">
+        <operation name="GetTasks">
+            <input message="tns:GetTasksRequest"/>
+            <output message="tns:GetTasksResponse"/>
+        </operation>
+    </portType>
+
+    <binding name="ToDoBinding" type="tns:ToDoPortType">
+        <soap:binding style="rpc" transport="http://schemas.xmlsoap.org/soap/http"/>
+        <operation name="GetTasks">
+            <soap:operation soapAction="http://example.com/todo/GetTasks"/>
+            <input>
+                <soap:body use="encoded" namespace="http://example.com/todo" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </input>
+            <output>
+                <soap:body use="encoded" namespace="http://example.com/todo" encodingStyle="http://schemas.xmlsoap.org/soap/encoding/"/>
+            </output>
+        </operation>
+    </binding>
+
+    <service name="ToDoService">
+        <port name="ToDoPort" binding="tns:ToDoBinding">
+            <soap:address location="http://localhost:8000/todo"/>
+        </port>
+    </service>
+</definitions>
